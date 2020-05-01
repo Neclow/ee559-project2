@@ -1,3 +1,3 @@
-from .loss import MSELoss
+from .loss import *
 
-__all__ = ['MSELoss']
+__all__ = ['MSELoss', 'CrossEntropyLoss']
