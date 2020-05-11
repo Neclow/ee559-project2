@@ -6,7 +6,7 @@ from module import Module
 class Linear(Module):
     def __init__(self, in_features, out_features):
         super(Linear).__init__()
-        std = 1/math.sqrt(in_features)
+        std = math.sqrt(2/in_features)
         self.in_features = in_features
         self.out_features = out_features
         

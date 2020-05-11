@@ -21,8 +21,8 @@ def main():
     print('Available optimizers: "sgd" (default), "mom" for SGD + momentum, "adam" for Adam optimization')
     
     print('Recommended learning rates: ')
-    print('SGD: 1e-1 with MSE loss, 1e-2 with Cross-Entropy loss')
-    print('SGD + Momentum: 1e-2 with MSE loss, 1e-4 with Cross-Entropy loss')
+    print('SGD: 1e-2 with MSE loss, 1e-3 with Cross-Entropy loss')
+    print('SGD + Momentum: 1e-3 with MSE loss, 1e-4 with Cross-Entropy loss')
     print('Adam: 1e-3 \n')
 
     seed = 42
@@ -43,7 +43,7 @@ def main():
     
     criterion = 'mse'
     optimizer = 'sgd'
-    eta = 1e-1
+    eta = 1e-2
     
     print('Model: ')
     print(net)
