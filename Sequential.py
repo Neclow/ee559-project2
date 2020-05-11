@@ -8,8 +8,8 @@ class Sequential(Module):
         
         self.modules = modules
     
-    def __call__(self, x):
-        return self.forward(x)
+    def __call__(self, input_):
+        return self.forward(input_)
     
     def __str__(self):
         out = f'{self.__class__.__name__}(\n'
@@ -29,10 +29,10 @@ class Sequential(Module):
             if isinstance(module, Linear):
                 module.zero_grad()
     
-    def forward(self, x):
+    def forward(self, input_):
         for module in self.modules:
-            x = module.forward(x)
-        return x
+            input_ = module.forward(input_)
+        return input_
     
     def backward(self, G):
         for module in reversed(self.modules):

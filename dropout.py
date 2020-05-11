@@ -1,3 +1,7 @@
+from module import Module
+import torch
+
+
 class InvertedDropout(Module):
     def __init__(self, p=0.5):
         self.p = p

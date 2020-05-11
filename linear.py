@@ -18,6 +18,9 @@ class Linear(Module):
        
     def __str__(self):
         return f'{self.__class__.__name__}({self.in_features}, {self.out_features})'
+    
+    def __call__(self, input_):
+        return self.forward(input_)
         
     def forward(self, input_):
         self.input_ = input_
@@ -26,7 +29,6 @@ class Linear(Module):
     def backward(self, G):
         self.dl_dw = G.t().mm(self.input_)
         self.dl_db = G.t().mv(torch.ones(G.shape[0]))
-        #self.dl_db = G.sum(0).view(1, -1)
         
         return G.mm(self.weight)
     

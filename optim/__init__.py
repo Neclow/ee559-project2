@@ -1,3 +1,3 @@
-from .SGD import SGD
+from .optim import *
 
-__all__ = ['SGD']
+__all__ = ['SGD', 'Adam']
