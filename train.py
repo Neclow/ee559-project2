@@ -148,7 +148,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
         # Train
         start = time.time()
         tr_loss = train(net, trainX, trainY, input_criterion, 
-                        input_optimizer, n_epochs, verbose = False)
+                        input_optimizer, n_epochs, eta, verbose = False)
         print('Trial %d/%d... Training time: %.2f s' % (i+1, n_trials, time.time()-start))
 
         # Collect data
