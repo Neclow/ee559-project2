@@ -1,5 +1,6 @@
 from module import Module
 from linear import Linear
+from dropout import InvertedDropout
 
 
 class Sequential(Module):
@@ -23,6 +24,12 @@ class Sequential(Module):
             out += f'({i}) {module.__str__()},\n'
         out += f')\n'
         return out
+    
+    def __len__(self):
+        '''
+        Print number of modules in Sequential
+        '''
+        return len(self.modules)
 
     def param(self):
         '''
@@ -61,6 +68,14 @@ class Sequential(Module):
         for module in self.modules:
             if isinstance(module, InvertedDropout):
                 module.eval = True
+                
+    def weight_initialization(self):
+        '''
+        Initialize weights of fully-connected layers
+        '''
+        for module in self.modules:
+            if isinstance(module, Linear):
+                module.weight_initialization()
 
     def forward(self, input_):
         '''

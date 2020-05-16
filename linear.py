@@ -61,6 +61,16 @@ class Linear(Module):
 
         self.input_ = input_
         return self.input_.mm(self.weight.t()) + self.bias
+    
+    def weight_initialization(self, mode='kaiming'):
+        if mode == 'kaiming':
+            std = math.sqrt(2/self.in_features)
+        elif mode == 'default':
+            std = math.sqrt(1/self.in_features)
+        else:
+            raise ValueError('Weight initialization mode unknown. Try "kaiming" or "default".')
+        
+        self.weight = torch.empty(self.out_features, self.in_features).normal_(0, std)        
 
     def backward(self, G):
         '''

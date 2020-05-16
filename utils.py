@@ -25,6 +25,7 @@ def load_data(plotting=False):
     testY
         Test targets
     '''
+    
     N = 1000 # Number of points to generate
     r2 = 1/(2*math.pi)
     trainX = torch.FloatTensor(N, 2).uniform_(0, 1)
