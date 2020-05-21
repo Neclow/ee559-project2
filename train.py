@@ -6,8 +6,8 @@ from optim import *
 from utils import load_data
 
 
-def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd',
-          nb_epochs = 250, eta=1e-3, mini_batch_size = 100, verbose = False):
+def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd', 
+          nb_epochs = 250, eta = 1e-3, mini_batch_size = 100, verbose = False):
     '''
     Network training
 
@@ -85,6 +85,7 @@ def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd
         if verbose:
             if (e+1) % 10 == 0:
                 print('Epoch %d/%d: loss = %.4f' % (e+1, nb_epochs, loss))
+                
         # Collect loss data
         losses[e] = loss
     return losses
@@ -118,9 +119,10 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
         start_seed = 0 with 20 trials means that seeds will be 0, ..., 19
     verbose
         If true, prints final loss, training accuracy and test accuracy for each trial
+        Train verbose flag can be set to True to also log the loss every 10 epochs
     save_data
         If true, saves train and test accuracies as a tensor of size (n_trials,) in a .pt file
-        Used to perform later statistical analyses (e.g. test differences of mean between configurations), if needed
+        Can be used to perform later statistical analyses (e.g. test differences of mean between configurations), if needed (not used for this project)
         
     Returns
     -------
@@ -155,7 +157,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
         all_losses[i] = tr_loss
 
         # Compute train and test accuracy
-        net.eval() # Dropout layers will work in eval mode
+        net.eval() # Dropout layers are disabled in eval mode
         with torch.no_grad():
             tr_accuracies[i] = compute_accuracy(net, trainX, trainY)
             te_accuracies[i] = compute_accuracy(net, testX, testY)

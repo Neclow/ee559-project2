@@ -1,6 +1,7 @@
 import torch
 from module import Module
 
+
 class tanh(Module):
     '''
     Hyperbolic tangent activation
@@ -53,6 +54,7 @@ class tanh(Module):
         '''
         return G.mul((1 - self.input_.tanh().pow(2)))
 
+    
 class ReLU(Module):
     '''
     Rectified Linear Unit (ReLU) activation

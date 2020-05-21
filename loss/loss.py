@@ -1,6 +1,7 @@
 import torch
 from module import Module
 
+
 class MSELoss(Module):
     '''
     Mean square error loss function
@@ -43,6 +44,7 @@ class MSELoss(Module):
         '''
         return 2*(self.input_ - self.target)/(self.input_.shape[0])
 
+    
 class CrossEntropyLoss(Module):
     '''
     Cross-entropy loss function

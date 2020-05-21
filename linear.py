@@ -38,11 +38,11 @@ class Linear(Module):
         '''
 
         super(Linear).__init__()
-        std = math.sqrt(2/in_features)
+        #std = math.sqrt(2/in_features) # He initialization
         self.in_features = in_features
         self.out_features = out_features
 
-        self.weight = torch.empty(out_features, in_features).normal_(0, std)
+        self.weight = torch.empty(out_features, in_features)
         self.bias = torch.zeros(out_features)
 
         self.dl_dw = torch.zeros(out_features, in_features)
@@ -58,20 +58,9 @@ class Linear(Module):
         '''
         Run forward pass on input
         '''
-
         self.input_ = input_
         return self.input_.mm(self.weight.t()) + self.bias
     
-    def weight_initialization(self, mode='kaiming'):
-        if mode == 'kaiming':
-            std = math.sqrt(2/self.in_features)
-        elif mode == 'default':
-            std = math.sqrt(1/self.in_features)
-        else:
-            raise ValueError('Weight initialization mode unknown. Try "kaiming" or "default".')
-        
-        self.weight = torch.empty(self.out_features, self.in_features).normal_(0, std)        
-
     def backward(self, G):
         '''
         Run backward pass (Back-propagation)
@@ -90,6 +79,29 @@ class Linear(Module):
         self.dl_dw = G.t().mm(self.input_)
         self.dl_db = G.t().mv(torch.ones(G.shape[0]))
         return G.mm(self.weight)
+    
+    def weight_initialization(self, mode='relu'):
+        '''
+        Initialize weights with He initialization (He et al., 2015)
+        
+        Parameters
+        -------
+        gain
+            String to indicate corrective gain for ReLU or tanh activations
+        '''
+        if mode == 'relu':
+            gain = math.sqrt(2)
+        elif mode == 'tanh':
+            gain = 5/3
+        elif mode == 'lin':
+            gain = 1
+        else:
+            raise ValueError('Weight initialization mode unknown. \
+            Try "relu" for ReLU-activated layers, "tanh" for tanh-activated layers or "lin" for non-activated layers.')
+        
+        std = gain/math.sqrt(self.in_features)
+        
+        self.weight = torch.empty(self.out_features, self.in_features).normal_(0, std)        
 
     def zero_grad(self):
         '''
@@ -104,7 +116,7 @@ class Linear(Module):
 
         Returns
         -------
-        tensor
+        list
             List of pairs, each pair containing the parameter and its respective gradient
         '''
 

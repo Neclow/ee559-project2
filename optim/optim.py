@@ -68,7 +68,7 @@ class Adam(Optimizer):
     eta
         Learning rate
     beta
-        Hyperparameters controlling decay rates (Kingma et al., 2014)
+        Hyperparameters controlling decay rates (default values recommended by Kingma et al., 2014)
     eps
         Parameter to avoid divide-by-zero errors
     m
@@ -104,5 +104,5 @@ class Adam(Optimizer):
 
             m_hat = self.m[i] / (1-self.beta[0])
             v_hat = self.v[i] / (1-self.beta[1])
-
+            
             p[0].sub_(self.eta * m_hat / (v_hat.sqrt() + self.eps))

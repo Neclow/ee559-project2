@@ -30,6 +30,29 @@ class Sequential(Module):
         Print number of modules in Sequential
         '''
         return len(self.modules)
+    
+    
+    def forward(self, input_):
+        '''
+        Run forward pass on input
+        '''
+        for module in self.modules:
+            input_ = module.forward(input_)
+        return input_
+
+    def backward(self, G):
+        '''
+        Run backward pass (Back-propagation)
+        Calculates gradients for both weights and biases of the layer.
+
+        Parameters
+        -------
+        G
+            Backpropagated gradient before the current layer
+            (Here, the gradient of losses wrt forward pass output)
+        '''
+        for module in reversed(self.modules):
+            G = module.backward(G)
 
     def param(self):
         '''
@@ -44,6 +67,27 @@ class Sequential(Module):
         for module in self.modules:
             param.extend(module.param())
         return param
+    
+    def weight_initialization(self):
+        '''
+        Initialize weights of fully-connected layers
+        '''
+        
+        # Find list of module names in Sequential
+        module_names = [module.__class__.__name__.lower() for module in self.modules]
+        
+        # Update corrective gain for relu/tanh activation
+        # otherwise pick linear gain (1.0) for weight initialization()
+        if 'tanh' in module_names:
+            gain = 'tanh'
+        elif 'relu' in module_names:
+            gain = 'relu'
+        else:
+            gain = 'lin'
+        
+        for module in self.modules:
+            if isinstance(module, Linear):
+                module.weight_initialization(gain)
 
     def zero_grad(self):
         '''
@@ -69,32 +113,4 @@ class Sequential(Module):
             if isinstance(module, InvertedDropout):
                 module.eval = True
                 
-    def weight_initialization(self):
-        '''
-        Initialize weights of fully-connected layers
-        '''
-        for module in self.modules:
-            if isinstance(module, Linear):
-                module.weight_initialization()
-
-    def forward(self, input_):
-        '''
-        Run forward pass on input
-        '''
-        for module in self.modules:
-            input_ = module.forward(input_)
-        return input_
-
-    def backward(self, G):
-        '''
-        Run backward pass (Back-propagation)
-        Calculates gradients for both weights and biases of the layer.
-
-        Parameters
-        -------
-        G
-            Backpropagated gradient before the current layer
-            (Here, the gradient of losses wrt forward pass output)
-        '''
-        for module in reversed(self.modules):
-            G = module.backward(G)
+    

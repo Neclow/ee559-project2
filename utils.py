@@ -111,21 +111,21 @@ def train_visualization(net, losses, testX, testY):
     b10 = (pred == 1) & (testY.argmax(1) == 0) # Predicted as 1 and true class is 0
     b11 = (pred == 1) & (testY.argmax(1) == 1) # Predicted as 1 and true class is 1
 
-    # Plot correlation matrix
+    # Plot confusion matrix
     plt.figure()
-    corr = torch.tensor([[b00.sum(), b10.sum()], [b01.sum(), b11.sum()]])
-    plt.matshow(corr, cmap='tab10')
+    conf = torch.tensor([[b00.sum(), b10.sum()], [b01.sum(), b11.sum()]])
+    plt.matshow(conf, cmap='tab10')
 
-    for i in range(corr.shape[0]):
-        for j in range(corr.shape[1]):
-            plt.text(i, j, '{:d}'.format(corr[i,j]), ha='center', va='center')
+    for i in range(conf.shape[0]):
+        for j in range(conf.shape[1]):
+            plt.text(i, j, '{:d}'.format(conf[i,j]), ha='center', va='center')
 
     plt.xlabel('True Class')
     plt.ylabel('Predicted class')
     #plt.show()
-    corr_fname = 'fig/corrmat.png'
-    print(f'Plot of correlation matrix saved under {corr_fname}')
-    plt.savefig(corr_fname)
+    conf_fname = 'fig/confmat.png'
+    print(f'Plot of confusion matrix saved under {conf_fname}')
+    plt.savefig(conf_fname)
 
     # Plotting scattering of correctly (resp. falsely) predicted values
     plt.figure()

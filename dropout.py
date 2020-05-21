@@ -20,9 +20,17 @@ class InvertedDropout(Module):
         self.p = p
         self.eval = False
         
+    def __str__(self):
+        '''
+        Print main info on dropout layer, i.e. the probability of dropping out a node
+        '''
+        return f'{self.__class__.__name__}({self.p})'
+        
     def forward(self, input_):
-        if eval:
+        if self.eval:
+            # Dropout disabled during evaluation/testing mode
             return input_
+        
         self.mask = (torch.rand(input_.shape) < self.p)/self.p
         return input_.mul(self.mask)
 
