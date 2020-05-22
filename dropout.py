@@ -28,7 +28,7 @@ class InvertedDropout(Module):
         
     def forward(self, input_):
         if self.eval:
-            # Dropout disabled during evaluation/testing mode
+            # Dropout disabled during evaluation/testing mode, so just return the input
             return input_
         
         self.mask = (torch.rand(input_.shape) < self.p)/self.p

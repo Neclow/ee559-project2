@@ -6,6 +6,7 @@ class tanh(Module):
     '''
     Hyperbolic tangent activation
     N.B. Activation functions are parameter-less
+    => Thus, activation functions inherit "param" function from superclass *module*
 
     Attributes
     -------
@@ -59,6 +60,7 @@ class ReLU(Module):
     '''
     Rectified Linear Unit (ReLU) activation
     N.B. Activation functions are parameter-less
+    => Thus, activation functions inherit "param" function from superclass *module*
 
     Attributes
     -------
@@ -89,7 +91,7 @@ class ReLU(Module):
             Activated input
         '''
         self.input_ = input_
-        return input_.relu()
+        return input_.clamp(min=0)
 
     def backward(self, G):
         '''
@@ -106,6 +108,3 @@ class ReLU(Module):
             Backpropagated gradient after activation
         '''
         return G.mul((self.input_ > 0).float())
-
-    def param(self):
-        return []

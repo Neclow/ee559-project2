@@ -98,7 +98,6 @@ def train_visualization(net, losses, testX, testY):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.grid()
-    #plt.show()
     loss_fname = 'fig/loss.png'
     print(f'Plot of training loss saved under {loss_fname}')
     plt.savefig(loss_fname)

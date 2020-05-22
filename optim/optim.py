@@ -14,6 +14,7 @@ class Optimizer(object):
         '''
         raise NotImplementedError
 
+
 class SGD(Optimizer):
     '''
     Stochastic Gradient Descent optimization
@@ -57,6 +58,7 @@ class SGD(Optimizer):
             self.u[i] = self.momentum*self.u[i] + self.eta*p[1]
             p[0].sub_(self.u[i])
 
+            
 class Adam(Optimizer):
     '''
     ADAptive Moment estimation (Adam) optimization (Kingma et al., 2014)
