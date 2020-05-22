@@ -4,7 +4,8 @@ The objective of this project is to design a mini \deep learning framework" usin
 tensor operations and the standard math library, hence in particular without using autograd or the
 neural-network modules.
 
-To run the project: *Python test.py*
+To run the project: *Python test.py* with two modes: 'train' for single training, 'trial' for N-round trial
+Running time for 'train' mode: 2-3 s => running time for 'trial' mode: 20-30 s (for 10 trials)
 
 Default network: two input units, two output units, three hidden layers of 25 units
 Default loss function: MSE
