@@ -87,8 +87,8 @@ def main():
     if mode == 'train':
         print('To visualize data, change flag "plot_data" to True.')
         print('To visualize training loss and predictions, change flag "plot_training" to True.')
-        plot_data = False
-        plot_training = False
+        plot_data = True
+        plot_training = True
         run_train(net, criterion, optimizer, eta, plot_data = plot_data, plot_training = plot_training)
     elif mode == 'trial':
         n_trials = 10
