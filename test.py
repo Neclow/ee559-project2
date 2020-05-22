@@ -64,13 +64,10 @@ def main():
     # Load default model
     net = Sequential([Linear(2, 25),
                       ReLU(),
-                      InvertedDropout(0.9),
                       Linear(25, 25),
                       ReLU(),
-                      InvertedDropout(0.9),
                       Linear(25, 25),
                       ReLU(),
-                      InvertedDropout(0.9),
                       Linear(25, 2)])
 
     print(net)
