@@ -6,7 +6,7 @@ from optim import *
 from utils import load_data
 
 
-def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd', 
+def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd',
           nb_epochs = 250, eta = 1e-3, mini_batch_size = 100, verbose = False):
     '''
     Network training
@@ -85,12 +85,12 @@ def train(model, trainX, trainY, input_criterion = 'mse', input_optimizer = 'sgd
         if verbose:
             if (e+1) % 10 == 0:
                 print('Epoch %d/%d: loss = %.4f' % (e+1, nb_epochs, loss))
-                
+
         # Collect loss data
         losses[e] = loss
     return losses
 
-def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd', 
+def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
           n_epochs = 250, eta = 1e-3, start_seed = 0, verbose = False, save_data = False):
     '''
     Perform a trial on a network, i.e. several rounds of training.
@@ -123,7 +123,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
     save_data
         If true, saves train and test accuracies as a tensor of size (n_trials,) in a .pt file
         Can be used to perform later statistical analyses (e.g. test differences of mean between configurations), if needed (not used for this project)
-        
+
     Returns
     -------
     all_losses
@@ -137,7 +137,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
     all_losses = torch.zeros((n_trials, n_epochs))
     tr_accuracies = torch.zeros(n_trials)
     te_accuracies = torch.zeros(n_trials)
-    
+
     for i in range(n_trials):
         # Load data
         torch.manual_seed(start_seed+i)
@@ -149,7 +149,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
 
         # Train
         start = time.time()
-        tr_loss = train(net, trainX, trainY, input_criterion, 
+        tr_loss = train(net, trainX, trainY, input_criterion,
                         input_optimizer, n_epochs, eta, verbose = False)
         print('Trial %d/%d... Training time: %.2f s' % (i+1, n_trials, time.time()-start))
 
@@ -171,7 +171,7 @@ def trial(net, n_trials = 30, input_criterion = 'mse', input_optimizer = 'sgd',
          (tr_accuracies.mean(), tr_accuracies.std(), tr_accuracies.median()))
     print('Test accuracy - mean: %.4f, std: %.4f, median: %.4f' %
          (te_accuracies.mean(), te_accuracies.std(), te_accuracies.median()))
-    
+
     if save_data:
-        torch.save(tr_accuracies, f'data/train_{input_optimizer}_{input_criterion}_{len(net)}.pt')
-        torch.save(te_accuracies, f'data/test_{input_optimizer}_{input_criterion}_{len(net)}.pt')
+        torch.save(tr_accuracies, f'train_{input_optimizer}_{input_criterion}_{len(net)}.pt')
+        torch.save(te_accuracies, f'test_{input_optimizer}_{input_criterion}_{len(net)}.pt')
