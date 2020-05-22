@@ -21,17 +21,17 @@ from metrics import compute_accuracy
 
 def run_train(net, criterion, optimizer, eta, plot_data = False, plot_training = False, seed = 42):
     torch.manual_seed(seed)
-    
+
     # Load data
     trainX, trainY, testX, testY = load_data(plotting=plot_data)
-    
+
     # Initialize weights
     net.weight_initialization()
-    
+
     time.sleep(2)
 
     # Train model
-    losses = train(net, trainX, trainY, input_criterion=criterion, input_optimizer=optimizer, 
+    losses = train(net, trainX, trainY, input_criterion=criterion, input_optimizer=optimizer,
                    eta=eta, verbose=True)
 
     # Compute accuracy
@@ -49,7 +49,7 @@ def main():
     Main function.
     Runs a single training, or 10 trials with default model, loss function and optimizer
     '''
-    
+
     print('Default run: single training with default net, MSE loss and SGD.')
     print('Available activation functions: ReLU, tanh.')
     print('Available criteria: "mse" for MSE loss (default), "cross" for cross-entropy loss')
@@ -59,8 +59,8 @@ def main():
     print('SGD: 1e-2 with MSE loss, 5e-4 with Cross-Entropy loss')
     print('SGD + Momentum: 1e-3 with MSE loss, 1e-4 with Cross-Entropy loss')
     print('Adam: 1e-3 \n')
-    
-            
+
+
     # Load default model
     net = Sequential([Linear(2, 25),
                       ReLU(),
@@ -72,21 +72,21 @@ def main():
                       ReLU(),
                       InvertedDropout(0.9),
                       Linear(25, 2)])
-    
+
     print(net)
-    
+
     # Load default criterion and optimizer, with corresponding LR
     criterion = 'mse'
     optimizer = 'sgd'
     eta = 1e-2
-    
+
     # Running mode: 'train' for single training, 'trial' for several trainings
-    #mode = 'train'
-    mode = 'trial'    
-    
+    mode = 'train'
+    #mode = 'trial'
+
     print(f'\n Selected mode: {mode} \n')
     time.sleep(1)
-    
+
     if mode == 'train':
         print('To visualize data, change flag "plot_data" to True.')
         print('To visualize training loss and predictions, change flag "plot_training" to True.')
@@ -94,11 +94,11 @@ def main():
         plot_training = False
         run_train(net, criterion, optimizer, eta, plot_data = plot_data, plot_training = plot_training)
     elif mode == 'trial':
-        n_trials = 30
-        trial(net, n_trials = n_trials, input_criterion = criterion, 
-                                                         input_optimizer = optimizer, eta = eta, save_data = True)
+        n_trials = 10
+        trial(net, n_trials = n_trials, input_criterion = criterion,
+              input_optimizer = optimizer, eta = eta, verbose = True)
     else:
-        raise ValueError('Running mode not found. Try "train" for simple train, "trial" for full trial.')   
+        raise ValueError('Running mode not found. Try "train" for simple train, "trial" for full trial.')
 
 if __name__ == "__main__":
     main()
